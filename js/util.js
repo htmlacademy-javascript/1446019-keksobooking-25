@@ -16,10 +16,4 @@ const getRandomFloat = (min, max, point) => {
   throw new Error('Ошибка');
 };
 
-let currentId = 0;
-const getAvatarUrl = () => {
-  currentId += 1;
-  return `img/avatars/user${currentId.toString().padStart(2, '0')}.png`;
-};
-
-export {getRandomInteger,getRandomFloat,getAvatarUrl};
+export {getRandomInteger,getRandomFloat};
