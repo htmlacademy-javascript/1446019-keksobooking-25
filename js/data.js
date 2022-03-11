@@ -13,11 +13,11 @@ const announcementTitles = [
 ];
 
 const roomTypes = [
-  'palace',
-  'flat',
-  'house',
-  'bungalow',
-  'hotel'
+  {palace: 'Дворец'},
+  {flat:'Квартира'},
+  {house:'Дом'},
+  {bungalow:'Бунгало'},
+  {hotel:'Отель'}
 ];
 
 const checkinTimes = [
