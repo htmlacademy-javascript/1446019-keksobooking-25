@@ -13,11 +13,11 @@ const announcementTitles = [
 ];
 
 const roomTypes = [
-  {palace: 'Дворец'},
-  {flat:'Квартира'},
-  {house:'Дом'},
-  {bungalow:'Бунгало'},
-  {hotel:'Отель'}
+  'palace',
+  'flat',
+  'house',
+  'bungalow',
+  'hotel'
 ];
 
 const checkinTimes = [
@@ -69,7 +69,6 @@ const createAnnouncement = () => {
     author:{
       avatar: getAvatarUrl()
     },
-
     offer:{
       title: getRandomArrayElement(announcementTitles),
       address: `${locationLat}, ${locationLon}`,
@@ -81,15 +80,12 @@ const createAnnouncement = () => {
       checkout: getRandomArrayElement(checkinTimes),
       features: getRandomArrayElement(roomFeatures),
       description: getRandomArrayElement(roomDescriptions),
-      photo: getRandomArrayElement(photos)
+      photos: getRandomArrayElement(photos)
     },
-
     location:{
       lat: locationLat,
       lng: locationLon
-
     }
   };
 };
-
 export {createAnnouncement};
