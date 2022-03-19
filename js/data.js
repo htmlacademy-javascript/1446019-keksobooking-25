@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomFloat, getAvatarUrl} from './util.js';
+import {getRandomInteger, getRandomFloat} from './util.js';
 const announcementTitles = [
   '2-к. квартира, 58 м², 3/3 эт.',
   '1-к. квартира, 36,4 м², 2/2 эт.',
@@ -56,6 +56,12 @@ const photos = [
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
+let currentId = 0;
+const getAvatarUrl = () => {
+  currentId += 1;
+  return `img/avatars/user${currentId.toString().padStart(2, '0')}.png`;
+};
+
 const createAnnouncement = () => {
   const locationLat = getRandomFloat(35.65000,35.70000,5);
   const locationLon = getRandomFloat(139.7000,139.8000,5);
@@ -63,7 +69,6 @@ const createAnnouncement = () => {
     author:{
       avatar: getAvatarUrl()
     },
-
     offer:{
       title: getRandomArrayElement(announcementTitles),
       address: `${locationLat}, ${locationLon}`,
@@ -75,17 +80,12 @@ const createAnnouncement = () => {
       checkout: getRandomArrayElement(checkinTimes),
       features: getRandomArrayElement(roomFeatures),
       description: getRandomArrayElement(roomDescriptions),
-      photo: getRandomArrayElement(photos)
+      photos: getRandomArrayElement(photos)
     },
-
     location:{
       lat: locationLat,
       lng: locationLon
-
     }
   };
 };
-
-const similarAnnouncement = Array.from({length: 10}, createAnnouncement);
-
-export {similarAnnouncement};
+export {createAnnouncement};
