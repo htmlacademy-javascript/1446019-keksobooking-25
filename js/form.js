@@ -13,7 +13,7 @@ const priceField = form.querySelector('[name="price"]');
 const amountRooms = form.querySelector('[name="rooms"]');
 const amountGuests = form.querySelector('[name="capacity"]');
 const checkInTime = form.querySelector('[name="timein"]');
-const departureTime = form.querySelector('[name="timeout"]');
+const checkOutTime = form.querySelector('[name="timeout"]');
 
 
 //Цена за ночь
@@ -57,24 +57,12 @@ function getСapacityErrorMessage () {
 
 pristine.addValidator(amountGuests, validateСapacity, getСapacityErrorMessage);
 
-//Время заезда и выезда
-/* checkInTime.addEventListener('change', () => {
+checkOutTime.addEventListener('change', (evt) => {
+  checkInTime.value = evt.target.value;
+});
 
-  for (let i = 0; i <= departureTime.length; i++) {
-    if (checkInTime.value[i] === departureTime.value[i]) {
-      checkInTime[i] = departureTime[i];
-      // eslint-disable-next-line
-    console.log(checkInTime[i]);} else {
-      // eslint-disable-next-line
-    console.log('Хватит');
-      break;
-
-    }
-  }
-}); */
-
-departureTime.addEventListener('change', () => {
-  departureTime.value = checkInTime.value;
+checkInTime.addEventListener('change', (evt) => {
+  checkOutTime.value = evt.target.value;
 });
 
 form.addEventListener('submit', (evt) => {
