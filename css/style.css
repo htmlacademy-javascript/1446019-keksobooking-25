@@ -364,6 +364,10 @@ fieldset {
   padding-bottom: 5px;
 }
 
+.ad-form__error-text {
+  color: red;
+}
+
 .ad-form__element input,
 .ad-form__element select,
 .ad-form__element textarea {
@@ -374,6 +378,7 @@ fieldset {
 
   height: 42px;
   padding-left: 14px;
+  margin-bottom: 2px;
 
   background-color: white;
   border: 1px solid #d9d9d3;
