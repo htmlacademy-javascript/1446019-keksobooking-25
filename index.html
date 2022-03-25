@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="nouislider/nouislider.css">
+  <link rel="stylesheet" href="leaflet/leaflet.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Кексобукинг</title>
 </head>
@@ -18,7 +20,7 @@
     </div>
 
     <!-- Карта объявлений -->
-    <section class="map">
+    <section class="map" >
 
       <!-- Блок для вставки карты -->
       <div class="map__canvas" id="map-canvas"></div>
@@ -79,7 +81,7 @@
     <section class="notice">
       <h2 class="notice__title">Ваше объявление</h2>
       <form class="ad-form" method="post" action="https://25.javascript.pages.academy/keksobooking"
-        enctype="multipart/form-data" autocomplete="off">
+        enctype="multipart/form-data" autocomplete="off" disabled>
         <fieldset class="ad-form-header">
           <legend class="ad-form-header__title">Ваша фотография (для карты)</legend>
           <div class="ad-form-header__upload">
@@ -104,13 +106,13 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес (координаты)</label>
-          <input id="address" name="address" type="text">
+          <input id="address" name="address" type="text" disabled>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
           <select id="type" name="type">
-            <option value="bungalow">Бунгало</option>
-            <option value="flat" selected>Квартира</option>
+            <option value="bungalow" selected>Бунгало</option>
+            <option value="flat">Квартира</option>
             <option value="hotel">Отель</option>
             <option value="house">Дом</option>
             <option value="palace">Дворец</option>
@@ -147,9 +149,9 @@
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="capacity">Количество мест</label>
           <select id="capacity" name="capacity">
-            <option value="3" selected>для 3 гостей</option>
+            <option value="3">для 3 гостей</option>
             <option value="2">для 2 гостей</option>
-            <option value="1">для 1 гостя</option>
+            <option value="1" selected>для 1 гостя</option>
             <option value="0">не для гостей</option>
           </select>
           <div class="result"></div>
@@ -258,6 +260,8 @@
     </div>
   </template>
   <script src="pristine/pristine.min.js"></script>
+  <script src="nouislider/nouislider.js"></script>
+  <script src="leaflet/leaflet.js"></script>
   <script src="./js/main.js" type="module"></script>
 
 </body>
