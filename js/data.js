@@ -56,7 +56,7 @@ const photos = [
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-let currentId = 0;
+let currentId = 1;
 const getAvatarUrl = () => {
   currentId += 1;
   return `img/avatars/user${currentId.toString().padStart(2, '0')}.png`;
@@ -88,4 +88,5 @@ const createAnnouncement = () => {
     }
   };
 };
+
 export {createAnnouncement};

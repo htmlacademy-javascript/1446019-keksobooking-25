@@ -1,10 +1,12 @@
-import {createAnnouncement} from './data.js';
-import {createOffersElement} from './template.js';
+import './data.js';
+import './template.js';
 import './form.js';
-const mapCanvas = document.querySelector('#map-canvas');
-const announcements = Array.from({length: 10}, createAnnouncement);
-// eslint-disable-next-line
-console.log(announcements);
+import './condition.js';
+import './UiSlider.js';
+import './map.js';
+import {createAnnouncement} from './data.js';
+import {renderPopup} from './map.js';
 
-const offersElement = createOffersElement(announcements);
-mapCanvas.appendChild(offersElement);
+const createAnnouncements = () => Array.from({length: 10}, createAnnouncement);
+const announcements = createAnnouncements();
+renderPopup(announcements);
