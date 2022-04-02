@@ -25,9 +25,15 @@ function getPhotos(photos, card) {
   return resultFragment;
 }
 
-const createOffersElement = (offers) => {
+const createPopupElement = (offers) => {
 
   const cardElement = cardTemplate.cloneNode(true);
+  if (offers.author.avatar) {
+    cardElement.querySelector('.popup__avatar').src = offers.author.avatar;
+  } else {
+    cardElement.querySelector('.popup__avatar').remove();
+
+  }
   if (offers.offer.title) {
     cardElement.querySelector('.popup__title').textContent = offers.offer.title;
   } else {
@@ -63,12 +69,6 @@ const createOffersElement = (offers) => {
     cardElement.querySelector('.popup__description').remove();
   }
 
-  if (offers.author.avatar) {
-    cardElement.querySelector('.popup__avatar').src = offers.author.avatar;
-  } else {
-    cardElement.querySelector('.popup__avatar').remove();
-  }
-
   if (offers.offer.type) {
     cardElement.querySelector('.popup__type').textContent = getType(offers.offer.type);
   } else {
@@ -76,15 +76,13 @@ const createOffersElement = (offers) => {
   }
   const featuresContainer = cardElement.querySelector('.popup__features');
 
-  if (offers.features) {
-    const featuresList = featuresContainer.querySelectorAll('.popup__feature');
-    featuresList.forEach((item) => {
-      const isNecessary = offers.offer.features.some(
-        (feature) => item.classList.contains(`popup__feature--${feature}`),
-      );
-      if (!isNecessary) {
-        item.remove();
-      }
+  if (offers.offer.features) {
+    featuresContainer.innerHTML = '';
+    offers.offer.features.forEach((feature) => {
+      const featureElement = document.createElement('li');
+      featureElement.classList.add('popup__feature');
+      featureElement.classList.add(`popup__feature--${feature}`);
+      featuresContainer.appendChild(featureElement);
     });
   }
 
@@ -97,4 +95,4 @@ const createOffersElement = (offers) => {
   return cardElement;
 };
 
-export {createOffersElement};
+export {createPopupElement};

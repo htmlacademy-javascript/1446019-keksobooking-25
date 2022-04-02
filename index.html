@@ -81,7 +81,7 @@
     <section class="notice">
       <h2 class="notice__title">Ваше объявление</h2>
       <form class="ad-form" method="post" action="https://25.javascript.pages.academy/keksobooking"
-        enctype="multipart/form-data" autocomplete="off" disabled>
+        enctype="multipart/form-data" autocomplete="off">
         <fieldset class="ad-form-header">
           <legend class="ad-form-header__title">Ваша фотография (для карты)</legend>
           <div class="ad-form-header__upload">
@@ -106,7 +106,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес (координаты)</label>
-          <input id="address" name="address" type="text" disabled>
+          <input class="ad-form__address" id="address" tabindex="-1" name="address" type="text">
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -120,7 +120,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" placeholder="5000" min="0" max="100000" required
+          <input id="price" name="price" type="number" placeholder="0" min="0" max="100000" required
             data-pristine-required-message="Обязательное поле" data-pristine-max-message="Максимум 100000 р." >
           <div class="ad-form__slider"></div>
         </fieldset>
