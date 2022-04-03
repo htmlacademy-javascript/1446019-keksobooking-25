@@ -6,14 +6,14 @@ import {getSuccessMessage} from './util.js';
 
 deactivatePage();
 
-const map = initMap(activatePage);
+initMap(activatePage);
 
 initForm();
 
 const RENDER_POPUP_COUNT = 10;
 
 getData((offers) => {
-  renderIcons(offers.slice(0, RENDER_POPUP_COUNT), map);
+  renderIcons(offers.slice(0, RENDER_POPUP_COUNT));
 });
 
 setUserFormSubmit(getSuccessMessage);

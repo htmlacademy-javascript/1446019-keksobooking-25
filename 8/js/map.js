@@ -9,6 +9,8 @@ const centerCoordinates = {
 
 const ZOOM_LEVEL = 12;
 
+let map;
+
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
   iconSize: [52, 52],
@@ -26,7 +28,7 @@ const mainPinMarker = L.marker(centerCoordinates, {
   icon: mainPinIcon,
 }, );
 
-const renderIcons = (cards,map) => {
+const renderIcons = (cards) => {
   cards.forEach((element) => {
     const {
       location: {
@@ -55,12 +57,14 @@ mainPinMarker.on('moveend', (evt) => {
 
 
 const resetMap = () => {
-  mainPinMarker.setLatLng(centerCoordinates).closePopup();
+  mainPinMarker.setLatLng(centerCoordinates,ZOOM_LEVEL);
+  map.setView(centerCoordinates,ZOOM_LEVEL);
+  map.closePopup();
   setDefaultAddress(`${centerCoordinates.lat}, ${centerCoordinates.lng}`);
 };
 
 const initMap = (onLoad) => {
-  const map = L.map('map-canvas')
+  map = L.map('map-canvas')
     .on('load', onLoad)
     .setView(centerCoordinates, ZOOM_LEVEL);
 
@@ -71,7 +75,6 @@ const initMap = (onLoad) => {
   ).addTo(map);
 
   mainPinMarker.addTo(map);
-  return map;
 };
 
 export {initMap,renderIcons,resetMap};
