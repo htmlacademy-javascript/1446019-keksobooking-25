@@ -1,11 +1,16 @@
+import {sendData} from './api.js';
+import {getErrorMessage, showAlert} from './util.js';
+import { resetMap } from './map.js';
 const form = document.querySelector('.ad-form');
-const roomType= form.querySelector('[name="type"]');
+const roomType = form.querySelector('[name="type"]');
 const priceField = form.querySelector('[name="price"]');
 const amountRooms = form.querySelector('[name="rooms"]');
 const amountGuests = form.querySelector('[name="capacity"]');
 const checkInTime = form.querySelector('[name="timein"]');
 const checkOutTime = form.querySelector('[name="timeout"]');
 const typeField = document.querySelector('#type');
+const submitButton = document.querySelector('.ad-form__submit');
+const resetButton = document.querySelector('.ad-form__reset');
 
 const slider = document.querySelector('.ad-form__slider');
 
@@ -16,8 +21,6 @@ const pristine = new Pristine(form, {
   errorTextClass: 'ad-form__error-text'
 });
 
-
-//Цена за ночь
 const minPrice = {
   'bungalow': 0,
   'flat': 1000,
@@ -26,91 +29,123 @@ const minPrice = {
   'palace': 10000
 };
 
-roomType.addEventListener('change', () => {
-  priceField.placeholder = minPrice[roomType.value];
-});
-
-function validatePriceField (value) {
+function validatePriceField(value) {
   return value >= minPrice[roomType.value];
 }
 
-function getPriceFieldErrorMessage () {
+function getPriceFieldErrorMessage() {
   return `Минимальная цена ${minPrice[roomType.value]} руб.`;
 }
-pristine.addValidator(priceField, validatePriceField, getPriceFieldErrorMessage);
 
-
-//Количество комнат
 const rooms = {
   '1': ['1'],
-  '2': ['1','2'],
-  '3': ['1','2','3'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
   '100': ['0']
 };
 
-function validateСapacity () {
+function validateСapacity() {
   return rooms[amountRooms.value].includes(amountGuests.value);
 }
 
-function getСapacityErrorMessage () {
+function getСapacityErrorMessage() {
   return 'Неверное количество комнат';
 }
 
-pristine.addValidator(amountGuests, validateСapacity, getСapacityErrorMessage);
-
-checkOutTime.addEventListener('change', (evt) => {
-  checkInTime.value = evt.target.value;
-});
-
-checkInTime.addEventListener('change', (evt) => {
-  checkOutTime.value = evt.target.value;
-});
-
-//Слайдер
-
-noUiSlider.create(slider, {
-  range: {
-    min: 0,
-    max: 100000,
-  },
-  start: minPrice[roomType.value],
-  step: 500,
-  connect: 'lower',
-  format: {
-    to: function (value) {
-      return value;
+const initForm = () => {
+  pristine.addValidator(priceField, validatePriceField, getPriceFieldErrorMessage);
+  pristine.addValidator(amountGuests, validateСapacity, getСapacityErrorMessage);
+  noUiSlider.create(slider, {
+    range: {
+      min: 0,
+      max: 100000,
     },
-    from: function (value) {
-      return parseFloat(value);
-    },
-  }
-});
-
-slider.noUiSlider.on('update', () => {
-  priceField.value = slider.noUiSlider.get();
-});
-
-priceField.addEventListener('change', () => {
-  slider.noUiSlider.updateOptions({
-    start: priceField.value,
+    start: minPrice[roomType.value],
+    step: 500,
+    connect: 'lower',
+    format: {
+      to: function (value) {
+        return value;
+      },
+      from: function (value) {
+        return parseFloat(value);
+      },
+    }
   });
-});
 
-typeField.addEventListener('change', () =>  {
-  slider.noUiSlider.set([minPrice[typeField.value],
-    null]);
-});
+  slider.noUiSlider.on('slide', () => {
+    priceField.value = slider.noUiSlider.get();
+  });
 
+  roomType.addEventListener('change', () => {
+    priceField.placeholder = minPrice[roomType.value];
+  });
 
-form.addEventListener('submit', (evt) => {
+  checkOutTime.addEventListener('change', (evt) => {
+    checkInTime.value = evt.target.value;
+  });
+
+  checkInTime.addEventListener('change', (evt) => {
+    checkOutTime.value = evt.target.value;
+  });
+
+  priceField.addEventListener('change', () => {
+    slider.noUiSlider.updateOptions({
+      start: priceField.value,
+    });
+  });
+
+  typeField.addEventListener('change', () => {
+    slider.noUiSlider.set([minPrice[typeField.value],
+      null
+    ]);
+  });
+};
+
+const resetForm = () => {
+  form.reset();
+  priceField.placeholder = minPrice[typeField.value];
+  slider.noUiSlider.set(priceField.placeholder);
+  resetMap();
+};
+
+resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
-
-  const isValid = pristine.validate();
-  if (isValid) {
-    // eslint-disable-next-line
-    console.log('Можно отправлять');
-  } else {
-    // eslint-disable-next-line
-    console.log('Форма невалидна');
-  }
+  resetForm();
 });
+
+const blockSubmitButton = () => {
+  submitButton.style.pointerEvents = 'none';
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикуется..';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.style.pointerEvents = 'auto';
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      unblockSubmitButton();
+      sendData(() => {
+        onSuccess();
+        resetForm();
+      },
+      () => {
+        showAlert('Проблемы с сервером. Попробуйте позже');
+      },
+      new FormData(evt.target)
+      );
+    } else {
+      getErrorMessage();
+    }
+  });
+};
+export {initForm,setUserFormSubmit,resetForm};

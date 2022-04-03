@@ -1,12 +1,20 @@
-import './data.js';
-import './template.js';
-import './form.js';
-import './condition.js';
-import './UiSlider.js';
-import './map.js';
-import {createAnnouncement} from './data.js';
-import {renderPopup} from './map.js';
+import {getData} from './api.js';
+import {activatePage, deactivatePage} from './condition.js';
+import {initMap ,renderIcons} from './map.js';
+import {initForm,setUserFormSubmit} from './form.js';
+import {getSuccessMessage} from './util.js';
 
-const createAnnouncements = () => Array.from({length: 10}, createAnnouncement);
-const announcements = createAnnouncements();
-renderPopup(announcements);
+deactivatePage();
+
+initMap(activatePage);
+
+initForm();
+
+const RENDER_POPUP_COUNT = 10;
+
+getData((offers) => {
+  renderIcons(offers.slice(0, RENDER_POPUP_COUNT));
+});
+
+setUserFormSubmit(getSuccessMessage);
+
