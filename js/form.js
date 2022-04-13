@@ -29,13 +29,9 @@ const minPrice = {
   'palace': 10000
 };
 
-function validatePriceField(value) {
-  return value >= minPrice[roomType.value];
-}
+const validatePriceField = (value) => value >= minPrice[roomType.value];
 
-function getPriceFieldErrorMessage() {
-  return `Минимальная цена ${minPrice[roomType.value]} руб.`;
-}
+const getPriceFieldErrorMessage = () => `Минимальная цена ${minPrice[roomType.value]} руб.`;
 
 const rooms = {
   '1': ['1'],
@@ -44,13 +40,9 @@ const rooms = {
   '100': ['0']
 };
 
-function validateСapacity() {
-  return rooms[amountRooms.value].includes(amountGuests.value);
-}
+const validateСapacity = () => rooms[amountRooms.value].includes(amountGuests.value);
 
-function getСapacityErrorMessage() {
-  return 'Неверное количество комнат';
-}
+const getСapacityErrorMessage = () => 'Неверное количество комнат';
 
 const initForm = () => {
   pristine.addValidator(priceField, validatePriceField, getPriceFieldErrorMessage);

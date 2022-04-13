@@ -1,6 +1,7 @@
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+const photosTemplate = cardTemplate.querySelector('.popup__photos');
 
-function getType(type) {
+const getType = (type) => {
   switch (type) {
     case 'flat':
       return 'Квартира';
@@ -15,19 +16,13 @@ function getType(type) {
     default:
       return 'Неизвестно';
   }
-}
-
-function getPhotos(photos, card) {
-  const resultFragment = document.createDocumentFragment();
-  const popupPhoto = card.querySelector('.popup__photo').cloneNode(true);
-  popupPhoto.src = photos;
-  resultFragment.appendChild(popupPhoto);
-  return resultFragment;
-}
+};
 
 const createPopupElement = (offers) => {
 
   const cardElement = cardTemplate.cloneNode(true);
+  const offerPhotoElement = cardElement.querySelector('.popup__photos');
+  const photoTemplate = photosTemplate.querySelector('.popup__photo');
   if (offers.author.avatar) {
     cardElement.querySelector('.popup__avatar').src = offers.author.avatar;
   } else {
@@ -85,13 +80,16 @@ const createPopupElement = (offers) => {
       featuresContainer.appendChild(featureElement);
     });
   }
-
   if (offers.offer.photos) {
-    cardElement.querySelector('.popup__photos').replaceChild(getPhotos(offers.offer.photos, cardElement), cardElement.querySelector('.popup__photo'));
+    offerPhotoElement.innerHTML = '';
+    offers.offer.photos.forEach( (photos) => {
+      const popupPhoto = photoTemplate.cloneNode(true);
+      popupPhoto.src = photos;
+      offerPhotoElement.append(popupPhoto);
+    });
   } else {
     cardElement.querySelector('.popup__photos').remove();
   }
-
   return cardElement;
 };
 

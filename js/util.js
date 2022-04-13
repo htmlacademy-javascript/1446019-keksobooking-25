@@ -41,9 +41,13 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-function isEscapeKey(evt) {
-  return evt.key === 'Escape';
-}
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const closeModalMessage = () => {
+  document.addEventListener('keydown', onPopupEscKeydown);
+  successElement.remove();
+  errorElement.remove();
+};
 
 const onPopupEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -57,12 +61,6 @@ document.addEventListener('keydown', (evt) => {
     closeModalMessage();
   }
 });
-
-function closeModalMessage () {
-  document.addEventListener('keydown', onPopupEscKeydown);
-  successElement.remove();
-  errorElement.remove();
-}
 
 const getSuccessMessage = () => {
   document.body.append(successElement);

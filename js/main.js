@@ -3,6 +3,8 @@ import {activatePage, deactivatePage} from './condition.js';
 import {initMap ,renderIcons} from './map.js';
 import {initForm,setUserFormSubmit} from './form.js';
 import {getSuccessMessage} from './util.js';
+import './avatar.js';
+import './photo.js';
 
 deactivatePage();
 

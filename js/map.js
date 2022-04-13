@@ -1,5 +1,4 @@
 import {createPopupElement} from './template.js';
-
 const address = document.querySelector('#address');
 
 const centerCoordinates = {
@@ -54,7 +53,6 @@ mainPinMarker.on('moveend', (evt) => {
   const markerLocation  = evt.target.getLatLng();
   address.value = `${markerLocation .lat.toFixed(4)}  ${markerLocation .lng.toFixed(4)}`;
 });
-
 
 const resetMap = () => {
   mainPinMarker.setLatLng(centerCoordinates,ZOOM_LEVEL);
