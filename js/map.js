@@ -7,8 +7,11 @@ const centerCoordinates = {
 };
 
 const ZOOM_LEVEL = 12;
+const RENDER_POPUP_COUNT = 10;
 
 let map;
+
+const markerGroup = L.layerGroup();
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -28,18 +31,19 @@ const mainPinMarker = L.marker(centerCoordinates, {
 }, );
 
 const renderIcons = (cards) => {
-  cards.forEach((element) => {
+  markerGroup.clearLayers();
+  cards.slice(0, RENDER_POPUP_COUNT).forEach((element) => {
     const {
       location: {
         lat,
         lng
       }
     } = element;
-    const similarMarker = L.marker([lat, lng], {
+    const marker = L.marker([lat, lng], {
       icon: commonPinIcon
     });
-    similarMarker.addTo(map);
-    similarMarker.bindPopup(createPopupElement(element));
+    marker.addTo(markerGroup);
+    marker.bindPopup(createPopupElement(element));
   });
 };
 
@@ -65,6 +69,8 @@ const initMap = (onLoad) => {
   map = L.map('map-canvas')
     .on('load', onLoad)
     .setView(centerCoordinates, ZOOM_LEVEL);
+
+  markerGroup.addTo(map);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

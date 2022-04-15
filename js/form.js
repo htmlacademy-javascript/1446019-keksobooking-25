@@ -1,6 +1,6 @@
 import {sendData} from './api.js';
-import {getErrorMessage, showAlert} from './util.js';
-import { resetMap } from './map.js';
+import {showErrorMessage, showAlert} from './message-popups.js';
+import {resetMap } from './map.js';
 const form = document.querySelector('.ad-form');
 const roomType = form.querySelector('[name="type"]');
 const priceField = form.querySelector('[name="price"]');
@@ -11,6 +11,7 @@ const checkOutTime = form.querySelector('[name="timeout"]');
 const typeField = document.querySelector('#type');
 const submitButton = document.querySelector('.ad-form__submit');
 const resetButton = document.querySelector('.ad-form__reset');
+const filterElement = document.querySelector('.map__filters');
 
 const slider = document.querySelector('.ad-form__slider');
 
@@ -95,6 +96,7 @@ const initForm = () => {
 };
 
 const resetForm = () => {
+  filterElement.reset();
   form.reset();
   priceField.placeholder = minPrice[typeField.value];
   slider.noUiSlider.set(priceField.placeholder);
@@ -136,8 +138,9 @@ const setUserFormSubmit = (onSuccess) => {
       new FormData(evt.target)
       );
     } else {
-      getErrorMessage();
+      showErrorMessage();
     }
   });
 };
+
 export {initForm,setUserFormSubmit,resetForm};
