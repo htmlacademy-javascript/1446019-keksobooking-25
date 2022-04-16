@@ -1,5 +1,5 @@
 import {sendData} from './api.js';
-import {showErrorMessage, showAlert} from './message-popups.js';
+import {showErrorMessage} from './message-popups.js';
 import {resetMap } from './map.js';
 
 const form = document.querySelector('.ad-form');
@@ -41,13 +41,13 @@ const validatePriceField = (value) => value >= minPrice[roomType.value];
 
 const getPriceFieldErrorMessage = () => `Минимальная цена ${minPrice[roomType.value]} руб.`;
 
-const validateСapacity = () => rooms[amountRooms.value].includes(amountGuests.value);
+const validateCapacity = () => rooms[amountRooms.value].includes(amountGuests.value);
 
-const getСapacityErrorMessage = () => 'Неверное количество комнат';
+const getCapacityErrorMessage = () => 'Неверное количество комнат';
 
 const initForm = () => {
   pristine.addValidator(priceField, validatePriceField, getPriceFieldErrorMessage);
-  pristine.addValidator(amountGuests, validateСapacity, getСapacityErrorMessage);
+  pristine.addValidator(amountGuests, validateCapacity, getCapacityErrorMessage);
   noUiSlider.create(slider, {
     range: {
       min: 0,
@@ -133,12 +133,11 @@ const setUserFormSubmit = (onSuccess) => {
         unblockSubmitButton();
       },
       () => {
-        showAlert('Проблемы с сервером. Попробуйте позже');
+        showErrorMessage();
+        unblockSubmitButton();
       },
       new FormData(evt.target)
       );
-    } else {
-      showErrorMessage();
     }
   });
 };
