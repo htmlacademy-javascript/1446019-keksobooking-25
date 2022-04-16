@@ -1,28 +1,6 @@
 const successElement = document.querySelector('#success').content.querySelector('.success');
 const errorElement = document.querySelector('#error').content.querySelector('.error');
 
-const ALERT_SHOW_TIME = 5000;
-
-const showAlert = (message) => {
-  const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = 100000;
-  alertContainer.style.position = 'fixed';
-  alertContainer.style.left = '50%';
-  alertContainer.style.width = '600px';
-  alertContainer.style.top = '300px';
-  alertContainer.style.transform = 'translateX(-50%)';
-  alertContainer.style.padding = '10px 3px';
-  alertContainer.style.fontSize = '30px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = '#d3d3d3';
-  alertContainer.textContent = message;
-  document.body.append(alertContainer);
-
-  setTimeout(() => {
-    alertContainer.remove();
-  }, ALERT_SHOW_TIME);
-};
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const closeSuccessMessage = () => {
@@ -69,4 +47,4 @@ const showErrorMessage = () => {
   document.addEventListener('keydown', handleErrorMessageKeydown);
 };
 
-export {showErrorMessage, showSuccessMessage,showAlert};
+export {showErrorMessage, showSuccessMessage};

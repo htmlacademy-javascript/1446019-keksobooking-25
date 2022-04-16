@@ -12,7 +12,6 @@ const priceOption = {
   'high': 50000,
 };
 
-let offersCopy;
 let selectedFeatures = [];
 
 const filterByType = (type) => typeElement.value === type || typeElement.value === 'any';
@@ -51,7 +50,6 @@ const filterOffers = (offers, renderMarkers) => {
 };
 
 const initFilter = (offers) => {
-  offersCopy = offers.slice();
   const debouncedFilterOffers = debounce(() => {
     filterOffers(offers, renderIcons);
   });
@@ -71,10 +69,4 @@ const initFilter = (offers) => {
   });
 };
 
-const resetFilter = (renderMarkers) => {
-  if (offersCopy) {
-    renderMarkers(offersCopy);
-  }
-};
-
-export { initFilter, resetFilter };
+export {initFilter};
