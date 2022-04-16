@@ -127,10 +127,10 @@ const setUserFormSubmit = (onSuccess) => {
     const isValid = pristine.validate();
     if (isValid) {
       blockSubmitButton();
-      unblockSubmitButton();
       sendData(() => {
         onSuccess();
         resetForm();
+        unblockSubmitButton();
       },
       () => {
         showAlert('Проблемы с сервером. Попробуйте позже');
