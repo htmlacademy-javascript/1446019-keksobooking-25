@@ -1,6 +1,7 @@
 import {sendData} from './api.js';
-import {getErrorMessage, showAlert} from './util.js';
-import { resetMap } from './map.js';
+import {showErrorMessage, showAlert} from './message-popups.js';
+import {resetMap } from './map.js';
+
 const form = document.querySelector('.ad-form');
 const roomType = form.querySelector('[name="type"]');
 const priceField = form.querySelector('[name="price"]');
@@ -11,7 +12,7 @@ const checkOutTime = form.querySelector('[name="timeout"]');
 const typeField = document.querySelector('#type');
 const submitButton = document.querySelector('.ad-form__submit');
 const resetButton = document.querySelector('.ad-form__reset');
-
+const filterElement = document.querySelector('.map__filters');
 const slider = document.querySelector('.ad-form__slider');
 
 const pristine = new Pristine(form, {
@@ -29,14 +30,6 @@ const minPrice = {
   'palace': 10000
 };
 
-function validatePriceField(value) {
-  return value >= minPrice[roomType.value];
-}
-
-function getPriceFieldErrorMessage() {
-  return `Минимальная цена ${minPrice[roomType.value]} руб.`;
-}
-
 const rooms = {
   '1': ['1'],
   '2': ['1', '2'],
@@ -44,13 +37,13 @@ const rooms = {
   '100': ['0']
 };
 
-function validateСapacity() {
-  return rooms[amountRooms.value].includes(amountGuests.value);
-}
+const validatePriceField = (value) => value >= minPrice[roomType.value];
 
-function getСapacityErrorMessage() {
-  return 'Неверное количество комнат';
-}
+const getPriceFieldErrorMessage = () => `Минимальная цена ${minPrice[roomType.value]} руб.`;
+
+const validateСapacity = () => rooms[amountRooms.value].includes(amountGuests.value);
+
+const getСapacityErrorMessage = () => 'Неверное количество комнат';
 
 const initForm = () => {
   pristine.addValidator(priceField, validatePriceField, getPriceFieldErrorMessage);
@@ -103,6 +96,7 @@ const initForm = () => {
 };
 
 const resetForm = () => {
+  filterElement.reset();
   form.reset();
   priceField.placeholder = minPrice[typeField.value];
   slider.noUiSlider.set(priceField.placeholder);
@@ -144,8 +138,9 @@ const setUserFormSubmit = (onSuccess) => {
       new FormData(evt.target)
       );
     } else {
-      getErrorMessage();
+      showErrorMessage();
     }
   });
 };
+
 export {initForm,setUserFormSubmit,resetForm};

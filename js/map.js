@@ -1,5 +1,4 @@
 import {createPopupElement} from './template.js';
-
 const address = document.querySelector('#address');
 
 const centerCoordinates = {
@@ -8,8 +7,12 @@ const centerCoordinates = {
 };
 
 const ZOOM_LEVEL = 12;
+const RENDER_POPUP_COUNT = 10;
 
 let map;
+let offersCopy;
+
+const markerGroup = L.layerGroup();
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -29,18 +32,19 @@ const mainPinMarker = L.marker(centerCoordinates, {
 }, );
 
 const renderIcons = (cards) => {
-  cards.forEach((element) => {
+  markerGroup.clearLayers();
+  cards.slice(0, RENDER_POPUP_COUNT).forEach((element) => {
     const {
       location: {
         lat,
         lng
       }
     } = element;
-    const similarMarker = L.marker([lat, lng], {
+    const marker = L.marker([lat, lng], {
       icon: commonPinIcon
     });
-    similarMarker.addTo(map);
-    similarMarker.bindPopup(createPopupElement(element));
+    marker.addTo(markerGroup);
+    marker.bindPopup(createPopupElement(element));
   });
 };
 
@@ -55,18 +59,21 @@ mainPinMarker.on('moveend', (evt) => {
   address.value = `${markerLocation .lat.toFixed(4)}  ${markerLocation .lng.toFixed(4)}`;
 });
 
-
 const resetMap = () => {
   mainPinMarker.setLatLng(centerCoordinates,ZOOM_LEVEL);
   map.setView(centerCoordinates,ZOOM_LEVEL);
   map.closePopup();
   setDefaultAddress(`${centerCoordinates.lat}, ${centerCoordinates.lng}`);
+  renderIcons(offersCopy);
 };
 
-const initMap = (onLoad) => {
+const initMap = (onLoad,offers) => {
+  offersCopy = offers;
   map = L.map('map-canvas')
     .on('load', onLoad)
     .setView(centerCoordinates, ZOOM_LEVEL);
+
+  markerGroup.addTo(map);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -75,6 +82,7 @@ const initMap = (onLoad) => {
   ).addTo(map);
 
   mainPinMarker.addTo(map);
+  renderIcons(offers);
 };
 
 export {initMap,renderIcons,resetMap};
