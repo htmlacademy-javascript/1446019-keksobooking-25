@@ -3,7 +3,6 @@ const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const fileChooser = document.querySelector('#avatar');
 const preview = document.querySelector('.ad-form-header__preview').querySelector('img');
 
-
 fileChooser.addEventListener('change', () => {
   const file = fileChooser.files[0];
   const fileName = file.name.toLowerCase();

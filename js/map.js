@@ -10,6 +10,7 @@ const ZOOM_LEVEL = 12;
 const RENDER_POPUP_COUNT = 10;
 
 let map;
+let offersCopy;
 
 const markerGroup = L.layerGroup();
 
@@ -63,9 +64,11 @@ const resetMap = () => {
   map.setView(centerCoordinates,ZOOM_LEVEL);
   map.closePopup();
   setDefaultAddress(`${centerCoordinates.lat}, ${centerCoordinates.lng}`);
+  renderIcons(offersCopy);
 };
 
-const initMap = (onLoad) => {
+const initMap = (onLoad,offers) => {
+  offersCopy = offers;
   map = L.map('map-canvas')
     .on('load', onLoad)
     .setView(centerCoordinates, ZOOM_LEVEL);
@@ -79,6 +82,7 @@ const initMap = (onLoad) => {
   ).addTo(map);
 
   mainPinMarker.addTo(map);
+  renderIcons(offers);
 };
 
 export {initMap,renderIcons,resetMap};

@@ -1,6 +1,7 @@
 import {sendData} from './api.js';
 import {showErrorMessage, showAlert} from './message-popups.js';
 import {resetMap } from './map.js';
+
 const form = document.querySelector('.ad-form');
 const roomType = form.querySelector('[name="type"]');
 const priceField = form.querySelector('[name="price"]');
@@ -12,7 +13,6 @@ const typeField = document.querySelector('#type');
 const submitButton = document.querySelector('.ad-form__submit');
 const resetButton = document.querySelector('.ad-form__reset');
 const filterElement = document.querySelector('.map__filters');
-
 const slider = document.querySelector('.ad-form__slider');
 
 const pristine = new Pristine(form, {
@@ -30,16 +30,16 @@ const minPrice = {
   'palace': 10000
 };
 
-const validatePriceField = (value) => value >= minPrice[roomType.value];
-
-const getPriceFieldErrorMessage = () => `Минимальная цена ${minPrice[roomType.value]} руб.`;
-
 const rooms = {
   '1': ['1'],
   '2': ['1', '2'],
   '3': ['1', '2', '3'],
   '100': ['0']
 };
+
+const validatePriceField = (value) => value >= minPrice[roomType.value];
+
+const getPriceFieldErrorMessage = () => `Минимальная цена ${minPrice[roomType.value]} руб.`;
 
 const validateСapacity = () => rooms[amountRooms.value].includes(amountGuests.value);
 

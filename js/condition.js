@@ -20,7 +20,7 @@ const deactivatePage = () => {
 const activatePage = () => {
   adForm.classList.remove('ad-form--disabled');
   fieldSet.forEach((element) => {
-    element.removeAttribute('disabled','disabled');
+    element.removeAttribute('disabled');
   });
 
   mapFilters.classList.remove('ad-form--disabled');

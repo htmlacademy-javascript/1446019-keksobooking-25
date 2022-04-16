@@ -1,3 +1,4 @@
+import { renderIcons } from './map.js';
 import { debounce } from './util.js';
 
 const filtersForm = document.querySelector('.map__filters');
@@ -49,14 +50,10 @@ const filterOffers = (offers, renderMarkers) => {
   renderMarkers(filteredOffers);
 };
 
-const initFilter = (offers, renderMarkers) => {
+const initFilter = (offers) => {
   offersCopy = offers.slice();
-  filtersForm.classList.remove(`${filtersForm.classList[0] }--disabled`);
-  filtersForm.childNodes.forEach((el) => {
-    el.disabled = false;
-  });
   const debouncedFilterOffers = debounce(() => {
-    filterOffers(offers, renderMarkers);
+    filterOffers(offers, renderIcons);
   });
   typeElement.addEventListener('change', debouncedFilterOffers);
   priceElement.addEventListener('change', debouncedFilterOffers);
